@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/26 18:52:09 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/26 19:44:24 by stakimot         ###   ########.fr       */
+/*   Created: 2023/04/26 19:35:06 by stakimot          #+#    #+#             */
+/*   Updated: 2023/04/26 19:52:13 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#ifndef PHILOSOPHERS_H
+# define PHILOSOPHERS_H
 
-void	*my_fanc(void *arg)
+# include <stdio.h>
+# include <pthread.h>
+
+typedef	struct	s_info
 {
-	printf("my_fanc\n");
-	return (NULL);
+	int	philo;
+	int	die;
+	int	eat;
+	int	sleep;
 }
 
-int	main(int argc, char **argv)
-{
-	pthread_t	tid;
-
-	pthread_create(&tid, NULL, my_fanc, NULL);
-	pthread_join(tid, NULL);
-	printf("main\n");
-	return (0);
-}
+#endif
