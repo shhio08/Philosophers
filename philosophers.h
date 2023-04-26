@@ -22,6 +22,6 @@ typedef	struct	s_info
 	int	die;
 	int	eat;
 	int	sleep;
-}
+} t_info;
 
 #endif

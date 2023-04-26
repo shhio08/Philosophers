@@ -12,18 +12,13 @@
 
 #include "philosophers.h"
 
-void	*my_fanc(void *arg)
+t_info	*init_info(int argc, char **argv)
 {
-	printf("my_fanc\n");
-	return (NULL);
 }
 
 int	main(int argc, char **argv)
 {
-	pthread_t	tid;
+	t_info	*info;
 
-	pthread_create(&tid, NULL, my_fanc, NULL);
-	pthread_join(tid, NULL);
-	printf("main\n");
-	return (0);
+	info = init_info(argc, argv);	
 }
