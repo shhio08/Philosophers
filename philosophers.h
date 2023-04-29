@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 19:35:06 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/27 15:57:48 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/04/29 22:21:39 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
+# include <sys/time.h>
+
 
 typedef enum e_now
 {
@@ -33,6 +35,7 @@ typedef struct s_info
 	int				eat;
 	int				sleep;
 	int				must_eat;
+	long			start;
 	pthread_mutex_t	*fork;
 	pthread_t		thread;
 }	t_info;
