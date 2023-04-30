@@ -6,13 +6,13 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 18:52:09 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/29 22:25:45 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/04/30 19:11:52 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-long	get_now_time()
+long	get_now_time(void)
 {
 	struct timeval	tv;
 
@@ -44,6 +44,7 @@ t_info	*init_info(int argc, char **argv)
 	info->eat = ft_atoi(argv[3]);
 	info->sleep = ft_atoi(argv[4]);
 	info->start = get_now_time();
+	info->check = true;
 	if (argc == 6)
 		info->must_eat = ft_atoi(argv[5]);
 	else
@@ -81,26 +82,19 @@ t_philo	*init_philo(t_info *info)
 	return (philo);
 }
 
-// void	monitoring(t_philo *philo)
-// {
-// }
 
 void	have_fork(t_philo *philo)
 {
 	if (philo->philo_number % 2 == 0)
 	{
 		pthread_mutex_lock(philo->l_fork);
-		printf("%d l_fork\n", philo->philo_number);
 		pthread_mutex_lock(philo->r_fork);
-		printf("%d r_fork\n", philo->philo_number);
 	}
 	else
 	{
 		my_usleep(10);
 		pthread_mutex_lock(philo->r_fork);
-		printf("%d r_fork\n", philo->philo_number);
 		pthread_mutex_lock(philo->l_fork);
-		printf("%d l_fork\n", philo->philo_number);
 	}
 }
 
@@ -110,7 +104,7 @@ void	happy_eat(t_philo *philo)
 	my_usleep(philo->info->eat);
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
-	printf("%d unlock\n", philo->philo_number);
+	philo->last_eat = (long)get_now_time;
 }
 
 void	happy_sleep(t_philo *philo)
@@ -139,6 +133,53 @@ void	*philo_move(void *p)
 	return (NULL);
 }
 
+bool	check_die(t_info *info)
+{
+	int	cnt;
+
+	cnt = 0;
+	while (cnt < info->menbers)
+	{
+		pthread_mutex_lock(info->mutex);
+		if (get_now_time() - info->philo[cnt++].last_eat > info->die)
+		{
+			info->check = false;
+			return (false);
+		}
+		pthread_mutex_unlock(info->mutex);
+	}
+	return (true);
+}
+
+bool	check_full(t_info *info)
+{
+	int	cnt;
+
+	cnt = 0;
+	while (cnt < info->menbers)
+	{
+		pthread_mutex_lock(info->mutex);
+		if (info->philo[cnt].eat_cnt == info->must_eat)
+		{
+			info->full = false;
+			return (false);
+		}
+		pthread_mutex_unlock(info->mutex);
+	}
+	return (true);
+}
+
+void	monitoring(t_info *info, t_philo *philo)
+{
+	while (1)
+	{
+		if (check_die(info))
+			break ;
+		if (check_full(info))
+			break ;
+	}
+}
+
 void	pthread_start(t_info *info, t_philo *philo)
 {
 	int	cnt;
@@ -149,6 +190,10 @@ void	pthread_start(t_info *info, t_philo *philo)
 		pthread_create(&philo[cnt].thread, NULL, &philo_move, &philo[cnt]);
 		cnt++;
 	}
+	cnt = 0;
+	monitoring(info, philo);
+	while (cnt < info->menbers)
+		pthread_join(philo[cnt++].thread, NULL);
 }
 
 int	main(int argc, char **argv)
@@ -162,5 +207,6 @@ int	main(int argc, char **argv)
 	if (!info)
 		return (1);
 	philo = init_philo(info);
+	info->philo = philo;
 	pthread_start(info, philo);
 }
