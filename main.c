@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 18:52:09 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/03 20:56:55 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/03 23:08:35 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ void	my_usleep(int num)
 
 	time = get_now_time();
 	while (get_now_time() < time + (long)num)
-	{
 		usleep(1);
-	}
 }
 
 t_info	*init_info(int argc, char **argv)
@@ -43,7 +41,6 @@ t_info	*init_info(int argc, char **argv)
 	info->die = ft_atoi(argv[2]);
 	info->eat = ft_atoi(argv[3]);
 	info->sleep = ft_atoi(argv[4]);
-	info->start = get_now_time();
 	info->check = false;
 	info->full = false;
 	info->full_menbers = 0;
@@ -93,18 +90,22 @@ void	have_fork(t_philo *philo)
 {
 	if (philo->philo_number % 2 == 0)
 	{
+		pthread_mutex_lock(philo->l_fork);
 		printf("%ld %d has taken a fork\n",
 			 get_now_time() - philo->info->start, philo->philo_number);
-		pthread_mutex_lock(philo->l_fork);
 		pthread_mutex_lock(philo->r_fork);
+		printf("%ld %d has taken a fork\n",
+			 get_now_time() - philo->info->start, philo->philo_number);
 	}
 	else
 	{
+		my_usleep(1);
+		pthread_mutex_lock(philo->r_fork);
 		printf("%ld %d has taken a fork\n",
 			 get_now_time() - philo->info->start, philo->philo_number);
-		my_usleep(10);
-		pthread_mutex_lock(philo->r_fork);
 		pthread_mutex_lock(philo->l_fork);
+		printf("%ld %d has taken a fork\n",
+			 get_now_time() - philo->info->start, philo->philo_number);
 	}
 }
 
@@ -123,9 +124,9 @@ void	happy_eat(t_philo *philo)
 
 void	happy_sleep(t_philo *philo)
 {
-	my_usleep(philo->info->sleep);
 	printf("%ld %d is sleeping\n",
 		get_now_time() - philo->info->start, philo->philo_number);
+	my_usleep(philo->info->sleep);
 }
 
 void	happy_think(t_philo *philo)
@@ -145,15 +146,19 @@ bool	move_check(t_philo *philo)
 	pthread_mutex_lock(&philo->info->check_full);
 	full = philo->info->full;
 	pthread_mutex_unlock(&philo->info->check_full);
-	if (philo->info->check == true)
+	if (check == true)
+	{
+		printf("%ld %d died\n",
+		get_now_time() - philo->info->start, philo->philo_number);
 		return (true);
+	}
 	if (philo->info->must_eat != 0 && philo->eat_cnt == philo->info->must_eat)
 	{
 		pthread_mutex_lock(&philo->info->check_full);
 		philo->info->full_menbers++;
 		pthread_mutex_unlock(&philo->info->check_full);
 	}
-	if (philo->info->full == true)
+	if (full == true)
 		return (true);
 	return (false);
 }
@@ -166,8 +171,6 @@ void	*philo_move(void *p)
 	while (1)
 	{
 		have_fork(philo);
-		if (move_check(philo))
-			break ;
 		happy_eat(philo);
 		if (move_check(philo))
 			break ;
@@ -176,8 +179,6 @@ void	*philo_move(void *p)
 			break ;
 		happy_think(philo);
 	}
-	printf("%ld %d died\n",
-		get_now_time() - philo->info->start, philo->philo_number);
 	return (NULL);
 }
 
@@ -212,7 +213,7 @@ bool	check_full(t_info *info)
 	pthread_mutex_lock(&info->check_full);
 	full_menbers = info->full_menbers;
 	pthread_mutex_unlock(&info->check_full);
-	if (info->full_menbers == info->menbers)
+	if (full_menbers == info->menbers)
 	{
 		pthread_mutex_lock(&info->check_full);
 		info->full = true;
@@ -238,6 +239,7 @@ void	pthread_start(t_info *info, t_philo *philo)
 	int	cnt;
 
 	cnt = 0;
+	info->start = get_now_time();
 	while (cnt < info->menbers)
 	{
 		pthread_create(&philo[cnt].thread, NULL, &philo_move, &philo[cnt]);
