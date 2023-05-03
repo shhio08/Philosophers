@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 18:52:09 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/03 23:08:35 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/03 23:24:12 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,10 @@ void	have_fork(t_philo *philo)
 	else
 	{
 		my_usleep(1);
-		pthread_mutex_lock(philo->r_fork);
+		pthread_mutex_lock(philo->l_fork);
 		printf("%ld %d has taken a fork\n",
 			 get_now_time() - philo->info->start, philo->philo_number);
-		pthread_mutex_lock(philo->l_fork);
+		pthread_mutex_lock(philo->r_fork);
 		printf("%ld %d has taken a fork\n",
 			 get_now_time() - philo->info->start, philo->philo_number);
 	}
@@ -231,6 +231,7 @@ void	monitoring(t_info *info)
 			break ;
 		if (check_full(info))
 			break ;
+		my_usleep(5);
 	}
 }
 
