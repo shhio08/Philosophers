@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 19:35:06 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/30 19:09:27 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/03 19:42:37 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@ typedef struct s_info
 	long			start;
 	bool			check;
 	bool			full;
+	int				full_menbers;
 	struct s_philo	*philo;
 	pthread_t		thread;
 	pthread_mutex_t	*fork;
-	pthread_mutex_t	*mutex;
+	pthread_mutex_t	check_die;
+	pthread_mutex_t	check_full;
 }	t_info;
 
 typedef struct s_philo
