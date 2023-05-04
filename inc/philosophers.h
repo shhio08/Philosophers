@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 19:35:06 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/03 19:42:37 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/04 19:42:52 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,16 @@ typedef struct s_philo
 	pthread_mutex_t	*r_fork;
 }	t_philo;
 
-int	ft_atoi(const char *str);
+int		ft_atoi(const char *str);
+t_info	*init_info(int argc, char **argv);
+t_philo	*init_philo(t_info *info);
+void	monitoring(t_info *info);
+void	have_fork(t_philo *philo);
+void	happy_eat(t_philo *philo);
+void	happy_think(t_philo *philo);
+void	happy_sleep(t_philo *philo);
+void	*philo_move(void *p);
+long	get_now_time(void);
+void	my_usleep(int num);
 
 #endif
