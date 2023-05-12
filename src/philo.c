@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 19:35:55 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/04 19:42:33 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/12 16:56:34 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void	*philo_move(void *p)
 	while (1)
 	{
 		have_fork(philo);
-		if (move_check(philo))
-			break ;
+		// if (move_check(philo))
+		// 	break ;
 		happy_eat(philo);
 		if (move_check(philo))
 			break ;
