@@ -6,13 +6,13 @@
 #    By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/04 19:30:41 by stakimot          #+#    #+#              #
-#    Updated: 2023/05/04 20:08:47 by stakimot         ###   ########.fr        #
+#    Updated: 2023/05/16 12:57:32 by stakimot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	philosophers
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror -fsanitize=thread -g
 RM			=	rm -rf
 
 INC			=	inc/

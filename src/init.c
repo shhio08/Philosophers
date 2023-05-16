@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 19:34:23 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/04 19:35:14 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/16 16:16:12 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_philo	*init_philo(t_info *info)
 	while (cnt < info->menbers)
 	{
 		philo[cnt].info = info;
-		philo[cnt].philo_number = cnt;
+		philo[cnt].philo_number = cnt + 1;
 		philo[cnt].l_fork = &info->fork[cnt];
 		philo[cnt].last_eat = get_now_time();
 		philo[cnt].eat_cnt = 0;

@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 19:35:06 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/04 19:42:52 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/16 16:39:20 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 typedef enum e_now
 {
+	TAKEN_FORK,
 	EAT,
 	SLEEP,
 	THINK,
@@ -52,7 +53,7 @@ typedef struct s_philo
 	int				philo_number;
 	long			last_eat;
 	int				eat_cnt;
-	t_now			now;
+	// t_now			now;
 	pthread_t		thread;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
@@ -69,5 +70,6 @@ void	happy_sleep(t_philo *philo);
 void	*philo_move(void *p);
 long	get_now_time(void);
 void	my_usleep(int num);
+void	print_move(t_philo *philo, t_now move);
 
 #endif
