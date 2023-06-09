@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 19:39:27 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/16 16:39:42 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/30 21:36:40 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,25 @@ void	my_usleep(int num)
 		usleep(100);
 }
 
-void	print_move(t_philo *philo, t_now move)
+bool	print_check(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->info->check_die);
 	pthread_mutex_lock(&philo->info->check_full);
 	if (philo->info->check == true || philo->info->full == true)
-		return ;
-	pthread_mutex_unlock(&philo->info->check_die);
+	{
+		pthread_mutex_unlock(&philo->info->check_die);
+		pthread_mutex_unlock(&philo->info->check_full);
+		return (true);
+	}
 	pthread_mutex_unlock(&philo->info->check_full);
+	pthread_mutex_unlock(&philo->info->check_die);
+	return (false);
+}
+
+void	print_move(t_philo *philo, t_now move)
+{
+	if (print_check(philo))
+		return ;
 	if (move == TAKEN_FORK)
 	{
 		printf("%ld %d has taken a fork\n",

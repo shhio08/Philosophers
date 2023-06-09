@@ -6,15 +6,15 @@
 #    By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/04 19:30:41 by stakimot          #+#    #+#              #
-#    Updated: 2023/05/16 12:57:32 by stakimot         ###   ########.fr        #
+#    Updated: 2023/06/09 09:39:51 by stakimot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		=	philosophers
+NAME		=	philo
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror -fsanitize=thread -g
+CFLAGS		=	-Wall -Wextra -Werror
 RM			=	rm -rf
-
+# -fsanitize=thread -g
 INC			=	inc/
 
 SRC_DIR		=	src/

@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 19:35:55 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/16 16:31:52 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/30 21:01:37 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,7 @@ static bool	move_check(t_philo *philo)
 	check = philo->info->check;
 	pthread_mutex_unlock(&philo->info->check_die);
 	if (check == true)
-	{
-		// printf()
-		// printf("%ld %d died\n",
-		// 	get_now_time() - philo->info->start, philo->philo_number);
 		return (true);
-	}
 	if (philo->info->must_eat != 0 && philo->eat_cnt == philo->info->must_eat)
 	{
 		pthread_mutex_lock(&philo->info->check_full);
@@ -38,7 +33,6 @@ static bool	move_check(t_philo *philo)
 	pthread_mutex_unlock(&philo->info->check_full);
 	if (full == true)
 	{
-		printf("----------------------------\n");
 		return (true);
 	}
 	return (false);

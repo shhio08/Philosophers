@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 19:38:34 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/16 16:10:51 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/30 21:01:48 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static bool	check_full(t_info *info)
 	pthread_mutex_lock(&info->check_full);
 	full_menbers = info->full_menbers;
 	pthread_mutex_unlock(&info->check_full);
-	if (full_menbers == info->menbers)
+	if (full_menbers >= info->menbers)
 	{
 		pthread_mutex_lock(&info->check_full);
 		info->full = true;
@@ -64,6 +64,6 @@ void	monitoring(t_info *info)
 			break ;
 		if (check_full(info))
 			break ;
-		my_usleep(10);
+		my_usleep(5);
 	}
 }

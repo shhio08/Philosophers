@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 19:35:06 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/16 16:39:20 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/30 21:34:13 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ typedef struct s_philo
 	int				philo_number;
 	long			last_eat;
 	int				eat_cnt;
-	// t_now			now;
 	pthread_t		thread;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;

@@ -6,16 +6,30 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 19:34:23 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/16 16:16:12 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/06/09 10:17:16 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-t_info	*init_info(int argc, char **argv)
+int	error_check(t_info *info)
+{
+	if (info->menbers <= 0)
+		return (1);
+	if (info->die <= 0)
+		return (1);
+	if (info->eat <= 0)
+		return (1);
+	if (info->sleep <= 0)
+		return (1);
+	if (info->must_eat < 0)
+		return (1);
+	return (0);
+}
+
+t_info	*info_set(int argc, char **argv)
 {
 	t_info	*info;
-	int		cnt;
 
 	info = (t_info *)malloc(sizeof(t_info));
 	if (!info)
@@ -31,6 +45,19 @@ t_info	*init_info(int argc, char **argv)
 		info->must_eat = ft_atoi(argv[5]);
 	else
 		info->must_eat = 0;
+	if (error_check(info))
+		return (NULL);
+	return (info);
+}
+
+t_info	*init_info(int argc, char **argv)
+{
+	t_info	*info;
+	int		cnt;
+
+	info = info_set(argc, argv);
+	if (!info)
+		return (NULL);
 	pthread_mutex_init(&info->check_die, NULL);
 	pthread_mutex_init(&info->check_full, NULL);
 	info->fork = (pthread_mutex_t *)malloc
@@ -38,7 +65,7 @@ t_info	*init_info(int argc, char **argv)
 	if (!info->fork)
 		return (NULL);
 	cnt = 0;
-	while (cnt <= info->menbers)
+	while (cnt < info->menbers)
 		pthread_mutex_init(&info->fork[cnt++], NULL);
 	return (info);
 }
