@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 19:39:27 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/30 21:36:40 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/06/09 13:53:44 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool	print_check(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->info->check_die);
 	pthread_mutex_lock(&philo->info->check_full);
-	if (philo->info->check == true || philo->info->full == true)
+	if (philo->info->check == true)
 	{
 		pthread_mutex_unlock(&philo->info->check_die);
 		pthread_mutex_unlock(&philo->info->check_full);

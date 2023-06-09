@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 18:52:09 by stakimot          #+#    #+#             */
-/*   Updated: 2023/06/09 10:23:28 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/06/09 13:58:48 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,8 @@ void	pthread_start(t_info *info, t_philo *philo)
 	monitoring(info);
 	while (cnt < info->menbers)
 		pthread_join(philo[cnt++].thread, NULL);
-	// pthread_mutex_destroy(info->fork);
 	pthread_mutex_destroy(&info->check_die);
 	pthread_mutex_destroy(&info->check_full);
-	// while (cnt < info->menbers)
-	// {
-	// 	pthread_mutex_destroy(philo->l_fork);
-	// 	pthread_mutex_destroy(philo->r_fork);
-	// }
 	cnt = 0;
 	while (cnt < info->menbers)
 		pthread_mutex_destroy(&info->fork[cnt++]);

@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 19:35:55 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/30 21:01:37 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/06/09 13:56:23 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,7 @@ static bool	move_check(t_philo *philo)
 	full = philo->info->full;
 	pthread_mutex_unlock(&philo->info->check_full);
 	if (full == true)
-	{
 		return (true);
-	}
 	return (false);
 }
 
@@ -61,8 +59,6 @@ void	*philo_move(void *p)
 	while (1)
 	{
 		have_fork(philo);
-		if (move_check(philo))
-			break ;
 		happy_eat(philo);
 		if (move_check(philo))
 			break ;
